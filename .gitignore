@@ -28,5 +28,5 @@ yarn-error.log*
 Thumbs.db
 
 # typescript
-next-env.d.ts
 *.tsbuildinfo
+next-env.d.ts
