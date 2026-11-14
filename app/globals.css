@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-white: #ffffff;
+  --color-warm: #f6f6f4;
+  --color-silver: #c8ccd2;
+  --color-steel: #6e737b;
+  --color-graphite: #1e2125;
+  --color-accent: #fcbc04;
+
+  --font-display: var(--font-unbounded);
+  --font-sans: var(--font-onest);
+  --font-mono: var(--font-jetbrains);
+
+  --shadow-none: 0 0 #0000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-graphite);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-graphite);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .grid-tech {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-silver) 35%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-silver) 35%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hairline {
+    border-color: var(--color-silver);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  .hazard {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-accent),
+      var(--color-accent) 10px,
+      #1e2125 10px,
+      #1e2125 20px
+    );
+  }
+
+  .reveal {
+    animation: reveal-up 0.7s ease both;
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
+
+/* react-day-picker — индустриален вид */
+.rdp-stz {
+  --rdp-accent-color: #fcbc04;
+  --rdp-accent-background-color: #fcbc04;
+  --rdp-day-height: 2.4rem;
+  --rdp-day-width: 2.4rem;
+  font-family: var(--font-onest), system-ui, sans-serif;
+}
+
+.rdp-stz .rdp-selected .rdp-day_button {
+  background: #1e2125 !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+}
+
+.rdp-stz .rdp-range_middle .rdp-day_button {
+  background: #f6f6f4 !important;
+  color: #1e2125 !important;
+}
+
+.rdp-stz .rdp-today:not(.rdp-selected) .rdp-day_button {
+  border: 1px solid #fcbc04;
+  border-radius: 0;
+}
+
+.rdp-stz .rdp-disabled {
+  opacity: 0.35;
+}
+
