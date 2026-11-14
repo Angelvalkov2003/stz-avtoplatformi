@@ -1,0 +1,17 @@
+---
+description: СТЗ Автоплатформи — ключови правила на проекта
+alwaysApply: true
+---
+
+# СТЗ Автоплатформи
+
+- Език на UI: български. Текстове кратки, конкретни, без AI клишета.
+- Стек: Next.js App Router, TS strict, Tailwind v4, Supabase (само service role от сървър), Resend, Vercel. Без UI kit-ове.
+- Палитра: #FFF, #F6F6F4, #C8CCD2, #6E737B, #1E2125, accent #FFC20E (или от логото). Жълто не като текст на бяло.
+- Шрифтове: Unbounded / Onest / JetBrains Mono (кирилица, next/font).
+- Стил: индустриален „технически лист“; реални снимки; SVG чертежи; 1px линии; номерирани секции.
+- БД: точно една миграция `supabase/migrations/0001_init.sql`. RLS без публични policies.
+- Кеш: React.cache за data layer; без client→Supabase.
+- Плащане само в брой. Дати: Europe/Sofia, тип date. EXCLUDE gist против припокривания.
+- Admin: парола + HMAC cookie; защита в proxy/middleware + във всеки action.
+- Пестене: без тестове/storybook; commit след фаза; build само в края.
