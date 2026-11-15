@@ -26,6 +26,13 @@ const jetbrains = JetBrains_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+const shareImage = {
+  url: "/images/logo-photo.jpg",
+  width: 1200,
+  height: 630,
+  alt: siteConfig.name,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -39,7 +46,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [{ url: "/images/platforms/platform-1/01.webp" }],
+    images: [shareImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [shareImage.url],
   },
   alternates: { canonical: "/" },
 };

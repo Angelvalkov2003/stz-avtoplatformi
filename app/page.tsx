@@ -22,7 +22,7 @@ export default async function HomePage() {
     email: siteConfig.email,
     address: siteConfig.address,
     url: process.env.NEXT_PUBLIC_SITE_URL,
-    image: `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/images/logo.png`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/images/logo-photo.jpg`,
   };
 
   return (
