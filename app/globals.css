@@ -95,32 +95,76 @@
   }
 }
 
-/* react-day-picker — индустриален вид */
+/* react-day-picker */
 .rdp-stz {
-  --rdp-accent-color: #fcbc04;
+  --rdp-accent-color: #1e2125;
   --rdp-accent-background-color: #fcbc04;
-  --rdp-day-height: 2.4rem;
-  --rdp-day-width: 2.4rem;
+  --rdp-day-height: 2.55rem;
+  --rdp-day-width: 2.55rem;
+  --rdp-day_button-border-radius: 0;
+  --rdp-selected-border: #1e2125;
   font-family: var(--font-onest), system-ui, sans-serif;
+  margin: 0;
+}
+
+.rdp-stz .rdp-month_caption {
+  font-family: var(--font-unbounded), system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e2125;
+}
+
+.rdp-stz .rdp-weekday {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #6e737b;
+  text-transform: lowercase;
+}
+
+.rdp-stz .rdp-day_button {
+  border-radius: 0 !important;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
 }
 
 .rdp-stz .rdp-selected .rdp-day_button {
   background: #1e2125 !important;
   color: #fff !important;
-  border-radius: 0 !important;
+  border: 1px solid #1e2125 !important;
+}
+
+.rdp-stz .rdp-range_start .rdp-day_button,
+.rdp-stz .rdp-range_end .rdp-day_button {
+  background: #fcbc04 !important;
+  color: #1e2125 !important;
+  border: 1px solid #1e2125 !important;
 }
 
 .rdp-stz .rdp-range_middle .rdp-day_button {
   background: #f6f6f4 !important;
   color: #1e2125 !important;
+  border: none !important;
 }
 
 .rdp-stz .rdp-today:not(.rdp-selected) .rdp-day_button {
   border: 1px solid #fcbc04;
-  border-radius: 0;
 }
 
 .rdp-stz .rdp-disabled {
-  opacity: 0.35;
+  opacity: 0.28;
+}
+
+.rdp-stz .rdp-button_previous,
+.rdp-stz .rdp-button_next {
+  border: 1px solid #c8ccd2;
+  border-radius: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+.rdp-stz .rdp-button_previous:hover,
+.rdp-stz .rdp-button_next:hover {
+  border-color: #1e2125;
+  background: #f6f6f4;
 }
 
