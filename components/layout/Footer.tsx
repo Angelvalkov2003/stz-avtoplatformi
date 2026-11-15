@@ -18,6 +18,17 @@ export function Footer() {
           </a>
           <p>{siteConfig.address}</p>
           <p>{siteConfig.workingHours}</p>
+          <a href={siteConfig.viber} className="block hover:text-accent">
+            Viber
+          </a>
+          <a
+            href={siteConfig.facebookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block hover:text-accent"
+          >
+            Facebook
+          </a>
           <a href={`mailto:${siteConfig.email}`} className="block hover:text-accent">
             {siteConfig.email}
           </a>

@@ -43,8 +43,10 @@ export default async function HomePage() {
           <div className="mt-10 flex flex-col gap-5">
             {platforms.length === 0 ? (
               <p className="border border-silver bg-warm p-4 text-sm text-steel">
-                Платформите ще се заредят след като миграцията е пусната в
-                Supabase.
+                Няма заредени платформи. Проверете{" "}
+                <code className="tabular">SUPABASE_SERVICE_ROLE_KEY</code> в
+                .env.local (трябва да е service_role / sb_secret_, не
+                publishable) и рестартирайте dev сървъра.
               </p>
             ) : (
               platforms.map((p, i) => (
@@ -185,25 +187,60 @@ export default async function HomePage() {
                     </a>
                   </dd>
                 </div>
+                <div>
+                  <dt className="text-steel">Viber</dt>
+                  <dd className="mt-1">
+                    <a href={siteConfig.viber} className="hover:underline">
+                      Съобщение в Viber
+                    </a>
+                    <span className="mt-1 block text-xs text-steel">
+                      Само Viber на този номер — без WhatsApp.
+                    </span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-steel">Facebook</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={siteConfig.facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      СТЗ Автоплатформи
+                    </a>
+                  </dd>
+                </div>
               </dl>
-              <Button href={siteConfig.phoneHref} className="mt-6">
-                Обади се
-              </Button>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button href={siteConfig.phoneHref}>Обади се</Button>
+                <Button href={siteConfig.viber} variant="ghost">
+                  Viber
+                </Button>
+              </div>
             </div>
             <div className="min-h-[280px] border border-silver bg-warm">
               {siteConfig.mapsEmbedUrl ? (
                 <iframe
-                  title="Карта — адрес за вземане"
+                  title="Карта — район Стара Загора"
                   src={siteConfig.mapsEmbedUrl}
                   className="h-full min-h-[280px] w-full"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
-              ) : (
-                <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-steel">
-                  Google Maps embed — TODO: добавете линк в lib/site-config.ts
-                </div>
-              )}
+              ) : null}
+              {siteConfig.mapsLink ? (
+                <p className="border-t border-silver bg-white px-4 py-2 text-xs text-steel">
+                  <a
+                    href={siteConfig.mapsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-graphite"
+                  >
+                    Отвори в Google Maps
+                  </a>
+                </p>
+              ) : null}
             </div>
           </div>
         </div>
