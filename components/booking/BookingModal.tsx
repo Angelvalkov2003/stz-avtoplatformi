@@ -4,6 +4,7 @@ import {
   useActionState,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useTransition,
 } from "react";
@@ -53,11 +54,11 @@ export function BookingModal({
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
-  const [state, action, pending] = useActionState(submitBooking, initial);
+  const [state, formAction, pending] = useActionState(submitBooking, initial);
   const [range, setRange] = useState<DateRange | undefined>();
   const [busy, setBusy] = useState(initialBusy);
   const [, startTransition] = useTransition();
-  const [submitting, setSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => setMounted(true), []);
 
@@ -119,7 +120,24 @@ export function BookingModal({
   }
 
   const canContinue = Boolean(startIso && endIso && price);
-  const busySubmitting = pending || submitting;
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (pending || !startIso || !endIso) return;
+    const form = e.currentTarget;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const fd = new FormData(form);
+    fd.set("platformId", platformId);
+    fd.set("startDate", startIso);
+    fd.set("endDate", endIso);
+    fd.set("website", "");
+    startTransition(() => {
+      formAction(fd);
+    });
+  }
 
   if (!mounted) return null;
 
@@ -142,7 +160,7 @@ export function BookingModal({
         role="dialog"
         aria-modal="true"
         aria-label="Резервация"
-        className={`relative mx-auto flex h-full max-h-none w-full max-w-lg flex-col bg-white transition-transform duration-300 ease-out md:mt-[4vh] md:h-auto md:max-h-[92vh] md:rounded-none ${
+        className={`relative mx-auto flex h-full max-h-none w-full max-w-lg flex-col bg-white transition-transform duration-300 ease-out md:mt-[4vh] md:h-auto md:max-h-[92vh] ${
           open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
         }`}
         style={{ backgroundColor: "#ffffff" }}
@@ -175,9 +193,9 @@ export function BookingModal({
           />
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-4 md:p-5">
-          {step === 1 ? (
-            <div>
+        {step === 1 ? (
+          <>
+            <div className="min-h-0 flex-1 overflow-y-auto p-4 md:p-5">
               <p className="text-sm text-steel">
                 Изберете период. Заетите дни са изключени.
               </p>
@@ -224,29 +242,37 @@ export function BookingModal({
                   </p>
                 )}
               </div>
-
               <p className="mt-3 text-xs text-steel">{siteConfig.paymentNote}</p>
             </div>
-          ) : (
-            <form
-              id="booking-step-2"
-              action={async (fd) => {
-                if (busySubmitting || !startIso || !endIso) return;
-                setSubmitting(true);
-                try {
-                  await action(fd);
-                } finally {
-                  setSubmitting(false);
-                }
-              }}
-              className="flex flex-col gap-3.5"
-            >
+            <div className="flex shrink-0 gap-2 border-t border-silver bg-white p-4">
+              <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
+                Отказ
+              </Button>
+              <Button
+                type="button"
+                className="flex-[1.4]"
+                disabled={!canContinue}
+                onClick={() => setStep(2)}
+              >
+                Напред
+              </Button>
+            </div>
+          </>
+        ) : (
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="flex min-h-0 flex-1 flex-col"
+          >
+            <div className="min-h-0 flex-1 space-y-3.5 overflow-y-auto p-4 md:p-5">
               <input type="hidden" name="platformId" value={platformId} />
               <input type="hidden" name="startDate" value={startIso} />
               <input type="hidden" name="endDate" value={endIso} />
               <input
                 type="text"
                 name="website"
+                value=""
+                readOnly
                 tabIndex={-1}
                 autoComplete="off"
                 className="absolute -left-[9999px] h-0 w-0 opacity-0"
@@ -288,7 +314,7 @@ export function BookingModal({
                     type="tel"
                     required
                     autoComplete="tel"
-                    placeholder="08xxxxxxxx"
+                    placeholder="0888123456"
                     className={`tabular ${fieldClass}`}
                   />
                 </label>
@@ -328,6 +354,7 @@ export function BookingModal({
                 <input
                   type="checkbox"
                   name="acceptTerms"
+                  value="on"
                   required
                   className="mt-0.5 accent-graphite"
                 />
@@ -348,27 +375,9 @@ export function BookingModal({
                   {state.message}
                 </p>
               ) : null}
-            </form>
-          )}
-        </div>
+            </div>
 
-        <div className="flex shrink-0 gap-2 border-t border-silver bg-white p-4">
-          {step === 1 ? (
-            <>
-              <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
-                Отказ
-              </Button>
-              <Button
-                type="button"
-                className="flex-[1.4]"
-                disabled={!canContinue}
-                onClick={() => setStep(2)}
-              >
-                Напред
-              </Button>
-            </>
-          ) : (
-            <>
+            <div className="flex shrink-0 gap-2 border-t border-silver bg-white p-4">
               <Button
                 type="button"
                 variant="ghost"
@@ -379,15 +388,14 @@ export function BookingModal({
               </Button>
               <Button
                 type="submit"
-                form="booking-step-2"
                 className="flex-[1.4]"
-                disabled={busySubmitting || !startIso || !endIso}
+                disabled={pending || !startIso || !endIso}
               >
-                {busySubmitting ? "Изпращане…" : "Изпрати заявка"}
+                {pending ? "Изпращане…" : "Изпрати заявка"}
               </Button>
-            </>
-          )}
-        </div>
+            </div>
+          </form>
+        )}
       </div>
     </div>,
     document.body,

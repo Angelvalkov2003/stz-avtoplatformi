@@ -37,11 +37,19 @@ export async function submitBooking(
 
   const parsed = bookingFormSchema.safeParse(raw);
   if (!parsed.success) {
-    return {
-      ok: false,
-      message: "Проверете полетата във формата.",
-      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
-    };
+    const fieldErrors = parsed.error.flatten().fieldErrors as Record<
+      string,
+      string[]
+    >;
+    const first =
+      fieldErrors.phone?.[0] ||
+      fieldErrors.email?.[0] ||
+      fieldErrors.customerName?.[0] ||
+      fieldErrors.acceptTerms?.[0] ||
+      fieldErrors.startDate?.[0] ||
+      fieldErrors.platformId?.[0] ||
+      "Проверете полетата във формата.";
+    return { ok: false, message: first, fieldErrors };
   }
 
   const data = parsed.data;
@@ -94,5 +102,11 @@ export async function submitBooking(
     // заявката е записана; имейлът не трябва да блокира успеха
   }
 
-  redirect("/rezervaciya/uspeshna");
+  const q = new URLSearchParams({
+    from: data.startDate,
+    to: data.endDate,
+    name: data.customerName,
+    platform: platform.name,
+  });
+  redirect(`/rezervaciya/uspeshna?${q.toString()}`);
 }
