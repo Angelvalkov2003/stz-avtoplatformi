@@ -115,9 +115,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="chzv" className="border-b border-silver bg-warm">
+      <section id="vaprosi" className="border-b border-silver bg-warm">
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
-          <SectionHeading number="04" title="Често задавани въпроси" />
+          <SectionHeading number="04" title="Въпроси" />
           <div className="mt-8 divide-y divide-silver border border-silver bg-white">
             {[
               {

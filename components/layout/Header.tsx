@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/site-config";
 const links = [
   { href: "/#platformi", label: "Платформи" },
   { href: "/#kak-raboti", label: "Как работи" },
-  { href: "/#chzv", label: "ЧЗВ" },
+  { href: "/#vaprosi", label: "Въпроси" },
   { href: "/#kontakti", label: "Контакти" },
 ];
 

@@ -65,6 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="bg"
+      data-scroll-behavior="smooth"
       className={`${unbounded.variable} ${onest.variable} ${jetbrains.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-white text-graphite antialiased">

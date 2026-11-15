@@ -7,9 +7,7 @@ export function MobileBookingBar() {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin")) return null;
 
-  const reserveHref = pathname?.startsWith("/platformi/")
-    ? "#rezervaciya"
-    : "/#platformi";
+  const onPlatform = pathname?.startsWith("/platformi/");
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-silver bg-white p-3 md:hidden">
@@ -20,12 +18,24 @@ export function MobileBookingBar() {
         >
           Обади се
         </a>
-        <a
-          href={reserveHref}
-          className="inline-flex items-center justify-center border border-accent bg-accent px-3 py-3 text-sm font-medium text-graphite"
-        >
-          Резервирай
-        </a>
+        {onPlatform ? (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center border border-accent bg-accent px-3 py-3 text-sm font-medium text-graphite"
+            onClick={() =>
+              window.dispatchEvent(new Event("stz:open-booking"))
+            }
+          >
+            Резервирай
+          </button>
+        ) : (
+          <a
+            href="/#platformi"
+            className="inline-flex items-center justify-center border border-accent bg-accent px-3 py-3 text-sm font-medium text-graphite"
+          >
+            Резервирай
+          </a>
+        )}
       </div>
     </div>
   );
