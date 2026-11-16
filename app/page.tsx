@@ -1,3 +1,4 @@
+import { FaqSection } from "@/components/home/FaqSection";
 import { Hero } from "@/components/home/Hero";
 import { PlatformCard } from "@/components/platform/PlatformCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -118,44 +119,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="vaprosi" className="border-b border-silver bg-warm">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
-          <SectionHeading number="04" title="Въпроси" />
-          <div className="mt-8 divide-y divide-silver border border-silver bg-white">
-            {[
-              {
-                q: "Има ли онлайн плащане?",
-                a: siteConfig.paymentNote,
-              },
-              {
-                q: "Цените финални ли са?",
-                a: siteConfig.priceDisclaimer,
-              },
-              {
-                q: "Мога ли да карам в чужбина?",
-                a: "Да — платформите имат изрядни документи за транспорт в България и чужбина.",
-              },
-              {
-                q: "Как се променя или отказва резервация?",
-                a: "Промени и откази се уреждат по телефона.",
-              },
-            ].map((f) => (
-              <details key={f.q} className="group px-5 py-4">
-                <summary className="cursor-pointer list-none font-medium marker:content-none">
-                  <span className="flex items-center justify-between gap-4">
-                    {f.q}
-                    <span className="tabular text-steel group-open:hidden">+</span>
-                    <span className="tabular hidden text-steel group-open:inline">−</span>
-                  </span>
-                </summary>
-                <p className="mt-3 max-w-prose text-sm leading-relaxed text-steel">
-                  {f.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection />
 
       <section id="kontakti" className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
