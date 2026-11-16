@@ -20,23 +20,22 @@ export function Hero() {
         <p className="font-display text-sm tracking-[0.18em] text-accent md:text-base">
           {siteConfig.name}
         </p>
-        <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold leading-[1.05] md:text-6xl">
-          Наем на автомобилни платформи
+        <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold uppercase leading-[1.05] md:text-6xl">
+          Автомобилни платформи под наем
         </h1>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-silver md:text-lg">
-          Три платформи с документи за България и чужбина. Резервация по телефон
-          или онлайн заявка — плащане в брой при вземане.
+          Бърза резервация онлайн или по телефона
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/#platformi" className="min-w-[10rem]">
-            Виж платформите
+            Резервирай сега
           </Button>
           <Button
             href={siteConfig.phoneHref}
             variant="ghost"
             className="min-w-[10rem] border-silver text-white hover:border-accent"
           >
-            {siteConfig.phone}
+            Обади ни се
           </Button>
         </div>
       </div>
