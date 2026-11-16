@@ -11,10 +11,19 @@ const uuidLike = z
     "Невалиден идентификатор на платформа.",
   );
 
+const pickupTime = z
+  .string()
+  .regex(/^([01]\d|2[0-3]):00$/, "Изберете час на вземане.")
+  .refine((t) => {
+    const h = Number(t.slice(0, 2));
+    return h >= 8 && h <= 18;
+  }, "Часът трябва да е между 08:00 и 18:00.");
+
 export const bookingFormSchema = z.object({
   platformId: uuidLike,
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  pickupTime,
   customerName: z.string().trim().min(2, "Въведете име.").max(120),
   phone: z
     .string()
@@ -22,7 +31,9 @@ export const bookingFormSchema = z.object({
     .transform((v) => v.replace(/[\s\-()]/g, ""))
     .refine((v) => bgPhone.test(v), "Въведете валиден български телефон."),
   email: z.string().trim().email("Въведете валиден имейл."),
-  cargo: z.string().trim().max(300).optional().or(z.literal("")),
+  travelScope: z.enum(["bulgaria", "abroad"], {
+    message: "Изберете къде ще пътувате.",
+  }),
   note: z.string().trim().max(1000).optional().or(z.literal("")),
   acceptTerms: z.boolean().refine((v) => v === true, {
     message: "Трябва да приемете условията.",
@@ -43,4 +54,3 @@ export const adminManualSchema = z.object({
   cargo: z.string().trim().max(300).optional().or(z.literal("")),
   note: z.string().trim().max(1000).optional().or(z.literal("")),
 });
-

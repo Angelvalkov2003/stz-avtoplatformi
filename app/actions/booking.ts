@@ -22,10 +22,11 @@ export async function submitBooking(
     platformId: String(formData.get("platformId") ?? ""),
     startDate: String(formData.get("startDate") ?? ""),
     endDate: String(formData.get("endDate") ?? ""),
+    pickupTime: String(formData.get("pickupTime") ?? ""),
     customerName: String(formData.get("customerName") ?? ""),
     phone: String(formData.get("phone") ?? ""),
     email: String(formData.get("email") ?? ""),
-    cargo: String(formData.get("cargo") ?? ""),
+    travelScope: String(formData.get("travelScope") ?? ""),
     note: String(formData.get("note") ?? ""),
     acceptTerms: formData.get("acceptTerms") === "on" ? true : false,
     website: String(formData.get("website") ?? ""),
@@ -42,6 +43,8 @@ export async function submitBooking(
       string[]
     >;
     const first =
+      fieldErrors.pickupTime?.[0] ||
+      fieldErrors.travelScope?.[0] ||
       fieldErrors.phone?.[0] ||
       fieldErrors.email?.[0] ||
       fieldErrors.customerName?.[0] ||
@@ -72,6 +75,13 @@ export async function submitBooking(
   );
   const price = estimatePrice(days, platform.prices);
 
+  const travelLabel =
+    data.travelScope === "abroad" ? "Чужбина" : "България";
+  const noteParts = [
+    `Час на вземане: ${data.pickupTime}`,
+    data.note?.trim() ? data.note.trim() : null,
+  ].filter(Boolean);
+
   const { data: booking, error } = await createBooking({
     platform_id: data.platformId,
     start_date: data.startDate,
@@ -79,8 +89,8 @@ export async function submitBooking(
     customer_name: data.customerName,
     phone: data.phone,
     email: data.email,
-    cargo: data.cargo || null,
-    note: data.note || null,
+    cargo: travelLabel,
+    note: noteParts.join("\n") || null,
     estimated_total_eur: price.totalEur,
     source: "web",
     status: "pending",
@@ -105,8 +115,10 @@ export async function submitBooking(
   const q = new URLSearchParams({
     from: data.startDate,
     to: data.endDate,
+    time: data.pickupTime,
     name: data.customerName,
     platform: platform.name,
+    travel: travelLabel,
   });
   redirect(`/rezervaciya/uspeshna?${q.toString()}`);
 }

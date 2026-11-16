@@ -52,9 +52,9 @@ function bookingDetails(
     <p style="margin:0 0 8px"><strong>Име:</strong> ${booking.customer_name}</p>
     <p style="margin:0 0 8px"><strong>Телефон:</strong> ${booking.phone}</p>
     <p style="margin:0 0 8px"><strong>Имейл:</strong> ${booking.email}</p>
-    <p style="margin:0 0 8px"><strong>Товар:</strong> ${booking.cargo || "—"}</p>
-    <p style="margin:0 0 8px"><strong>Бележка:</strong> ${booking.note || "—"}</p>
-    <p style="margin:0 0 8px"><strong>Ориентировъчна цена:</strong> ${price}</p>
+    <p style="margin:0 0 8px"><strong>Къде ще пътувате:</strong> ${booking.cargo || "—"}</p>
+    <p style="margin:0 0 8px"><strong>Бележка / час:</strong> ${booking.note || "—"}</p>
+    <p style="margin:0 0 8px"><strong>Общо за периода:</strong> ${price}</p>
     <p style="margin:16px 0 0;font-size:13px;color:#6E737B">${siteConfig.paymentNote}</p>
   `;
 }

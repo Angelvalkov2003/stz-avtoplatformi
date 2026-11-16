@@ -24,6 +24,7 @@ import { siteConfig } from "@/lib/site-config";
 import type { PlatformPrice } from "@/lib/types";
 
 type BusyRange = { start_date: string; end_date: string; status: string };
+type TravelScope = "bulgaria" | "abroad";
 
 type Props = {
   platformId: string;
@@ -39,9 +40,19 @@ const initial: BookingActionState = { ok: false };
 const fieldClass =
   "w-full border border-silver bg-white px-3.5 py-3 text-sm text-graphite outline-none transition-colors placeholder:text-silver focus:border-graphite";
 
+const PICKUP_HOURS = Array.from({ length: 11 }, (_, i) => {
+  const h = String(i + 8).padStart(2, "0");
+  return `${h}:00`;
+});
+
 function formatBgShort(iso: string) {
   const [y, m, d] = iso.split("-");
   return `${d}.${m}.${y}`;
+}
+
+function formatBgDayMonth(iso: string) {
+  const [, m, d] = iso.split("-");
+  return `${d}.${m}`;
 }
 
 export function BookingModal({
@@ -57,6 +68,8 @@ export function BookingModal({
   const [state, formAction, pending] = useActionState(submitBooking, initial);
   const [range, setRange] = useState<DateRange | undefined>();
   const [busy, setBusy] = useState(initialBusy);
+  const [pickupTime, setPickupTime] = useState("09:00");
+  const [travelScope, setTravelScope] = useState<TravelScope | "">("");
   const [, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -80,6 +93,8 @@ export function BookingModal({
     if (open) {
       setStep(1);
       setRange(undefined);
+      setPickupTime("09:00");
+      setTravelScope("");
     }
   }, [open]);
 
@@ -119,11 +134,11 @@ export function BookingModal({
     return iso < todayIso || busySet.has(iso);
   }
 
-  const canContinue = Boolean(startIso && endIso && price);
+  const canContinue = Boolean(startIso && endIso && price && pickupTime);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (pending || !startIso || !endIso) return;
+    if (pending || !startIso || !endIso || !travelScope) return;
     const form = e.currentTarget;
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -133,6 +148,8 @@ export function BookingModal({
     fd.set("platformId", platformId);
     fd.set("startDate", startIso);
     fd.set("endDate", endIso);
+    fd.set("pickupTime", pickupTime);
+    fd.set("travelScope", travelScope);
     fd.set("website", "");
     startTransition(() => {
       formAction(fd);
@@ -214,27 +231,60 @@ export function BookingModal({
 
               <div className="mt-4 border border-silver bg-white p-4">
                 {price && startIso ? (
-                  <div className="flex items-end justify-between gap-3">
-                    <div>
-                      <p className="text-xs text-steel">Период</p>
-                      <p className="tabular mt-1 text-sm font-medium">
-                        {formatBgShort(startIso)}
-                        {endIso !== startIso
-                          ? ` – ${formatBgShort(endIso)}`
-                          : ""}
-                      </p>
-                      <p className="tabular mt-1 text-xs text-steel">
-                        {price.days} {price.days === 1 ? "ден" : "дни"}
-                      </p>
+                  <div className="space-y-3">
+                    <div className="flex items-end justify-between gap-3">
+                      <div>
+                        <p className="text-xs text-steel">Период</p>
+                        <p className="tabular mt-1 text-sm font-medium">
+                          {formatBgShort(startIso)}
+                          {endIso !== startIso
+                            ? ` – ${formatBgShort(endIso)}`
+                            : ""}
+                        </p>
+                        <p className="tabular mt-1 text-xs text-steel">
+                          {price.days} {price.days === 1 ? "ден" : "дни"}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-steel">
+                          * {siteConfig.paymentNote}
+                        </p>
+                        <p className="mt-1 text-xs font-medium text-steel">
+                          Общо за периода
+                        </p>
+                        <p className="tabular font-display text-2xl font-semibold">
+                          {price.kind === "negotiable"
+                            ? "По дог."
+                            : formatEur(price.totalEur ?? 0)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs text-steel">ориентировъчна цена</p>
-                      <p className="tabular font-display text-2xl font-semibold">
-                        {price.kind === "negotiable"
-                          ? "По дог."
-                          : formatEur(price.totalEur ?? 0)}
+
+                    <label className="block border-t border-silver pt-3">
+                      <span className="mb-1.5 block text-xs font-medium text-steel">
+                        Час на вземане *
+                      </span>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="tabular text-sm font-medium">
+                          {formatBgDayMonth(startIso)} в
+                        </span>
+                        <select
+                          value={pickupTime}
+                          onChange={(e) => setPickupTime(e.target.value)}
+                          className={`tabular max-w-[7.5rem] ${fieldClass}`}
+                          aria-label="Час на вземане"
+                        >
+                          {PICKUP_HOURS.map((h) => (
+                            <option key={h} value={h}>
+                              {h}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <p className="mt-2 text-xs leading-relaxed text-steel">
+                        * {siteConfig.pickupHoursNote}
                       </p>
-                    </div>
+                    </label>
                   </div>
                 ) : (
                   <p className="text-sm text-steel">
@@ -242,7 +292,6 @@ export function BookingModal({
                   </p>
                 )}
               </div>
-              <p className="mt-3 text-xs text-steel">{siteConfig.paymentNote}</p>
             </div>
             <div className="flex shrink-0 gap-2 border-t border-silver bg-white p-4">
               <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
@@ -268,6 +317,8 @@ export function BookingModal({
               <input type="hidden" name="platformId" value={platformId} />
               <input type="hidden" name="startDate" value={startIso} />
               <input type="hidden" name="endDate" value={endIso} />
+              <input type="hidden" name="pickupTime" value={pickupTime} />
+              <input type="hidden" name="travelScope" value={travelScope} />
               <input
                 type="text"
                 name="website"
@@ -283,12 +334,15 @@ export function BookingModal({
                 <p className="tabular font-medium">
                   {formatBgShort(startIso)} – {formatBgShort(endIso)}
                   <span className="mx-2 text-silver">·</span>
-                  {price?.days} {price?.days === 1 ? "ден" : "дни"}
+                  {formatBgDayMonth(startIso)} в {pickupTime}
                 </p>
-                <p className="tabular mt-1 text-steel">
+                <p className="mt-1 text-xs text-steel">
+                  * {siteConfig.paymentNote}
+                </p>
+                <p className="tabular mt-1 font-medium">
                   {price?.kind === "negotiable"
                     ? "По договаряне"
-                    : `${formatEur(price?.totalEur ?? 0)} · ориентировъчна цена`}
+                    : `Общо за периода: ${formatEur(price?.totalEur ?? 0)}`}
                 </p>
               </div>
 
@@ -332,12 +386,51 @@ export function BookingModal({
                 </label>
               </div>
 
-              <label className="block">
-                <span className="mb-1.5 block text-xs font-medium text-steel">
-                  Какво ще превозвате
-                </span>
-                <input name="cargo" className={fieldClass} />
-              </label>
+              <fieldset>
+                <legend className="mb-2 text-xs font-medium text-steel">
+                  Къде ще пътувате *
+                </legend>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <label
+                    className={`flex cursor-pointer items-center gap-2 border px-3 py-3 text-sm ${
+                      travelScope === "bulgaria"
+                        ? "border-graphite bg-warm"
+                        : "border-silver bg-white"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="travelScopeRadio"
+                      checked={travelScope === "bulgaria"}
+                      onChange={() => setTravelScope("bulgaria")}
+                      required
+                      className="accent-graphite"
+                    />
+                    <span>България</span>
+                  </label>
+                  <label
+                    className={`flex cursor-pointer items-center gap-2 border px-3 py-3 text-sm ${
+                      travelScope === "abroad"
+                        ? "border-graphite bg-warm"
+                        : "border-silver bg-white"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="travelScopeRadio"
+                      checked={travelScope === "abroad"}
+                      onChange={() => setTravelScope("abroad")}
+                      className="accent-graphite"
+                    />
+                    <span>Чужбина</span>
+                  </label>
+                </div>
+                {travelScope === "abroad" ? (
+                  <p className="mt-3 border border-silver bg-warm px-3 py-3 text-xs leading-relaxed text-graphite">
+                    {siteConfig.abroadTravelNote}
+                  </p>
+                ) : null}
+              </fieldset>
 
               <label className="block">
                 <span className="mb-1.5 block text-xs font-medium text-steel">
@@ -346,8 +439,12 @@ export function BookingModal({
                 <textarea
                   name="note"
                   rows={3}
+                  placeholder="Допълнителни уточнения…"
                   className={`${fieldClass} min-h-[5rem] resize-y`}
                 />
+                <span className="mt-1.5 block text-xs leading-relaxed text-steel">
+                  * {siteConfig.pickupHoursNote}
+                </span>
               </label>
 
               <label className="flex items-start gap-3 border border-silver bg-warm/50 px-3.5 py-3 text-sm">
@@ -389,7 +486,7 @@ export function BookingModal({
               <Button
                 type="submit"
                 className="flex-[1.4]"
-                disabled={pending || !startIso || !endIso}
+                disabled={pending || !startIso || !endIso || !travelScope}
               >
                 {pending ? "Изпращане…" : "Изпрати заявка"}
               </Button>
