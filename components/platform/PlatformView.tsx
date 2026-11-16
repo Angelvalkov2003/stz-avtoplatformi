@@ -5,6 +5,13 @@ import { BookingModal } from "@/components/booking/BookingModal";
 import { Gallery } from "@/components/platform/Gallery";
 import { PriceTable } from "@/components/platform/PriceTable";
 import { Button } from "@/components/ui/Button";
+import {
+  axleCount,
+  dimensionsLabel,
+  licenseNote,
+  sharedEquipment,
+  socketLabel,
+} from "@/lib/platform-specs";
 import { formatEur } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site-config";
 import type { PlatformWithPrices } from "@/lib/types";
@@ -39,10 +46,7 @@ export function PlatformView({ platform, images, busy }: Props) {
   }, [openBooking]);
 
   const specs: [string, string][] = [
-    [
-      "Размери",
-      `${Number(platform.length_m).toFixed(2)} × ${Number(platform.width_m).toFixed(2)} м`,
-    ],
+    ["Размери", dimensionsLabel(platform)],
     ["Товароносимост", `${platform.capacity_kg} кг`],
     [
       "Собствена маса",
@@ -52,8 +56,8 @@ export function PlatformView({ platform, images, busy }: Props) {
       "Допустим товар",
       platform.payload_kg != null ? `~${platform.payload_kg} кг` : "—",
     ],
-    ["Документи", "България и чужбина"],
-    ["Включено", "Лебедка · резервна гума · колани"],
+    ["Брой оси", String(axleCount(platform))],
+    ["Букса", socketLabel(platform)],
   ];
 
   return (
@@ -75,12 +79,14 @@ export function PlatformView({ platform, images, busy }: Props) {
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-silver">
               {platform.description}
             </p>
+            <p className="mt-4 max-w-xl border border-accent/40 bg-accent px-3 py-2 text-sm font-medium text-graphite">
+              {licenseNote}
+            </p>
             <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <div>
                 <dt className="text-xs text-silver">Размери</dt>
                 <dd className="tabular font-medium">
-                  {Number(platform.length_m).toFixed(2)} ×{" "}
-                  {Number(platform.width_m).toFixed(2)} м
+                  {dimensionsLabel(platform)}
                 </dd>
               </div>
               <div>
@@ -95,22 +101,13 @@ export function PlatformView({ platform, images, busy }: Props) {
               </div>
             </dl>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
-            <Button
-              type="button"
-              onClick={openBooking}
-              className="min-w-[10rem] justify-center"
-            >
-              Резервирай
-            </Button>
-            <Button
-              href={siteConfig.phoneHref}
-              variant="ghost"
-              className="min-w-[10rem] justify-center border-silver text-white hover:border-accent"
-            >
-              Обади се
-            </Button>
-          </div>
+          <Button
+            type="button"
+            onClick={openBooking}
+            className="min-w-[10rem] justify-center self-end"
+          >
+            Резервирай
+          </Button>
         </div>
       </section>
 
@@ -151,6 +148,20 @@ export function PlatformView({ platform, images, busy }: Props) {
 
             <section>
               <h2 className="font-display text-lg font-semibold">
+                Включено оборудване
+              </h2>
+              <ul className="mt-3 space-y-2 border border-silver bg-warm p-4">
+                {sharedEquipment.map((item) => (
+                  <li key={item} className="flex gap-2.5 text-sm">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-accent" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="font-display text-lg font-semibold">
                 Подходяща за
               </h2>
               <ul className="mt-3 space-y-2 border border-silver bg-warm p-4">
@@ -166,30 +177,16 @@ export function PlatformView({ platform, images, busy }: Props) {
         </div>
 
         <section className="mt-8 border border-silver">
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-silver bg-warm px-4 py-4 md:px-5">
-            <div>
-              <h2 className="font-display text-lg font-semibold">Ценоразпис</h2>
-              <p className="mt-1 text-xs text-steel">
-                Ориентировъчни цени · {siteConfig.paymentNote}
-              </p>
-            </div>
-            <Button type="button" onClick={openBooking}>
-              Резервирай период
-            </Button>
+          <div className="border-b border-silver bg-warm px-4 py-4 md:px-5">
+            <h2 className="font-display text-lg font-semibold">Ценоразпис</h2>
+            <p className="mt-1 text-xs text-steel">
+              Ориентировъчни цени · {siteConfig.paymentNote}
+            </p>
           </div>
           <div className="p-4 md:p-5">
             <PriceTable prices={platform.prices} />
           </div>
         </section>
-
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border border-silver bg-graphite px-4 py-4 text-white md:px-5">
-          <p className="text-sm text-silver">
-            Готови ли сте? Изберете дати и изпратете заявка.
-          </p>
-          <Button type="button" onClick={openBooking}>
-            Резервирай
-          </Button>
-        </div>
       </div>
 
       <div id="rezervaciya" className="sr-only" aria-hidden />

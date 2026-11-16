@@ -98,8 +98,8 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
           <SectionHeading
             number="03"
-            title="Какво е включено"
-            description="Стандартно оборудване и документи с всяка платформа."
+            title="Включено оборудване"
+            description="Стандартно с всяка платформа."
           />
           <ul className="mt-8 grid gap-px bg-silver sm:grid-cols-2">
             {siteConfig.included.map((item) => (
@@ -112,6 +112,9 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+          <p className="mt-6 border border-accent bg-accent px-4 py-3 text-sm font-medium text-graphite">
+            {siteConfig.licenseNote}
+          </p>
         </div>
       </section>
 
