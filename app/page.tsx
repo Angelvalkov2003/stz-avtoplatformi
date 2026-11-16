@@ -225,7 +225,7 @@ export default async function HomePage() {
             <div className="min-h-[280px] border border-silver bg-warm">
               {siteConfig.mapsEmbedUrl ? (
                 <iframe
-                  title="Карта — район Стара Загора"
+                  title="Карта — Стара Загора и региона"
                   src={siteConfig.mapsEmbedUrl}
                   className="h-full min-h-[280px] w-full"
                   loading="lazy"

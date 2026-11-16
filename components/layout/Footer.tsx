@@ -8,7 +8,7 @@ export function Footer() {
         <div>
           <p className="font-display text-lg text-white">{siteConfig.name}</p>
           <p className="mt-2 max-w-xs text-sm leading-relaxed">
-            Наем на автомобилни платформи с документи за България и чужбина.
+            Автомобилни платформи под наем — краткосрочно и дългосрочно.
           </p>
         </div>
         <div className="text-sm leading-7">
