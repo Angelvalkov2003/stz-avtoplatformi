@@ -11,11 +11,11 @@ export function MobileBookingBar() {
 
   if (onPlatform) {
     return (
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-silver bg-white/95 p-3 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-lg justify-center">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-graphite">
+        <div className="mx-auto flex max-w-6xl justify-center px-0 md:px-6 md:py-3">
           <button
             type="button"
-            className="inline-flex w-full items-center justify-center border border-accent bg-accent px-4 py-3.5 text-sm font-medium text-graphite md:max-w-sm"
+            className="inline-flex w-full items-center justify-center bg-accent px-4 py-4 text-sm font-semibold tracking-wide text-graphite transition hover:brightness-95 md:max-w-md md:border md:border-accent"
             onClick={() =>
               window.dispatchEvent(new Event("stz:open-booking"))
             }

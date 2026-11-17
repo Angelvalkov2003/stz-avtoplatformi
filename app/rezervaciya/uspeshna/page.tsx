@@ -107,14 +107,14 @@ export default async function BookingSuccessPage({ searchParams }: Props) {
               <p className="text-sm font-medium text-graphite">Място на вземане</p>
               <p className="mt-1 text-sm text-steel">{siteConfig.address}</p>
               {siteConfig.mapsLink ? (
-                <a
+                <Button
                   href={siteConfig.mapsLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block text-sm underline underline-offset-2"
+                  className="mt-3 w-full sm:w-auto"
                 >
                   Отвори в Google Maps
-                </a>
+                </Button>
               ) : null}
             </div>
             {siteConfig.mapsEmbedUrl ? (

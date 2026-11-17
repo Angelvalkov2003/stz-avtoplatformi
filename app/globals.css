@@ -93,6 +93,67 @@
       transform: translateY(0);
     }
   }
+
+  .hero-drop {
+    animation: hero-drop 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes hero-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-1.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-ltr {
+    animation: hero-ltr 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes hero-ltr {
+    from {
+      opacity: 0;
+      clip-path: inset(0 100% 0 0);
+      transform: translateX(-0.75rem);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+      transform: translateX(0);
+    }
+  }
+
+  .hero-rise {
+    animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-caret {
+    width: 0.08em;
+    height: 0.85em;
+    background: var(--color-accent);
+    vertical-align: baseline;
+    animation: hero-caret 0.7s steps(1) infinite;
+  }
+
+  @keyframes hero-caret {
+    50% {
+      opacity: 0;
+    }
+  }
 }
 
 /* react-day-picker */

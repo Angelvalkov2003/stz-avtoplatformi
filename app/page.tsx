@@ -168,7 +168,7 @@ export default async function HomePage() {
             <div className="min-h-[280px] border border-silver bg-warm">
               {siteConfig.mapsEmbedUrl ? (
                 <iframe
-                  title="Карта — Стара Загора и региона"
+                  title="Карта — STZ Автомобилни Платформи под Наем"
                   src={siteConfig.mapsEmbedUrl}
                   className="h-full min-h-[280px] w-full"
                   loading="lazy"
@@ -176,16 +176,16 @@ export default async function HomePage() {
                 />
               ) : null}
               {siteConfig.mapsLink ? (
-                <p className="border-t border-silver bg-white px-4 py-2 text-xs text-steel">
-                  <a
+                <div className="border-t border-silver bg-white px-4 py-3">
+                  <Button
                     href={siteConfig.mapsLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:text-graphite"
+                    className="w-full sm:w-auto"
                   >
                     Отвори в Google Maps
-                  </a>
-                </p>
+                  </Button>
+                </div>
               ) : null}
             </div>
           </div>

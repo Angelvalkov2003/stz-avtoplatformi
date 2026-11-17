@@ -36,7 +36,7 @@ export function Footer() {
         <div className="text-sm leading-7">
           <p className="text-white">Информация</p>
           <Link href="/usloviya" className="block hover:text-accent">
-            Условия за наем
+            Общи условия
           </Link>
           <p className="mt-4 text-xs text-steel">
             {siteConfig.paymentNote}

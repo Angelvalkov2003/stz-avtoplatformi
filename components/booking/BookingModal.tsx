@@ -457,10 +457,15 @@ export function BookingModal({
                 />
                 <span>
                   Съгласен съм с{" "}
-                  <a href="/usloviya" className="underline">
-                    условията
-                  </a>
-                  .
+                  <a
+                    href="/usloviya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 hover:text-graphite"
+                  >
+                    общите условия
+                  </a>{" "}
+                  за използване на уебсайта.
                 </span>
               </label>
 

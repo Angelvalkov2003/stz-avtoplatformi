@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { BookingModal } from "@/components/booking/BookingModal";
 import { Gallery } from "@/components/platform/Gallery";
@@ -24,11 +25,19 @@ type Props = {
 };
 
 export function PlatformView({ platform, images, busy }: Props) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const from = platform.prices.find((x) => x.days === 1)?.total_eur;
 
   const openBooking = useCallback(() => setOpen(true), []);
   const closeBooking = useCallback(() => setOpen(false), []);
+  const goBack = useCallback(() => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    router.push("/#platformi");
+  }, [router]);
 
   useEffect(() => {
     const onHash = () => {
@@ -63,9 +72,19 @@ export function PlatformView({ platform, images, busy }: Props) {
     <>
       <section className="border-b border-silver bg-graphite text-white">
         <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-          <p className="tabular text-xs text-silver">
-            {String(platform.sort_order).padStart(2, "0")} / платформа
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <p className="tabular text-xs text-silver">
+              {String(platform.sort_order).padStart(2, "0")} / платформа
+            </p>
+            <button
+              type="button"
+              onClick={goBack}
+              className="inline-flex shrink-0 items-center gap-1.5 border border-silver/35 px-3 py-2 text-xs font-medium text-silver transition hover:border-accent hover:text-accent"
+            >
+              <span aria-hidden>←</span>
+              Назад
+            </button>
+          </div>
           <h1 className="mt-2 font-display text-3xl font-semibold md:text-4xl">
             {platform.name}
           </h1>

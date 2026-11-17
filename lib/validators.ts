@@ -36,7 +36,7 @@ export const bookingFormSchema = z.object({
   }),
   note: z.string().trim().max(1000).optional().or(z.literal("")),
   acceptTerms: z.boolean().refine((v) => v === true, {
-    message: "Трябва да приемете условията.",
+    message: "Трябва да приемете общите условия.",
   }),
   website: z.string().max(0).optional(),
 });

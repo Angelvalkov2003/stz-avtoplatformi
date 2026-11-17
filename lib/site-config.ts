@@ -5,14 +5,14 @@ export const siteConfig = {
     "Автомобилни платформи под наем — краткосрочно и дългосрочно. Равна 5 м, малка 4.5 м и дълга 6 м.",
   phone: "+359877751188",
   phoneHref: "tel:+359877751188",
-  email: "avoex.contact@gmail.com",
-  address: "Стара Загора и региона",
+  email: "stzavtoplatformi@gmail.com",
+  address: "STZ Автомобилни Платформи под Наем, Стара Загора",
   workingHours: "Всеки ден — постоянно",
   viber: "viber://chat?number=%2B359877751188",
   facebookUrl: "https://www.facebook.com/share/1KJYJAAseD/?mibextid=wwXIfr",
   mapsEmbedUrl:
-    "https://maps.google.com/maps?q=%D0%A1%D1%82%D0%B0%D1%80%D0%B0%20%D0%97%D0%B0%D0%B3%D0%BE%D1%80%D0%B0&hl=bg&z=12&output=embed",
-  mapsLink: "https://share.google/M4BYmEXlphPFPJOSq",
+    "https://maps.google.com/maps?q=42.4002664,25.6432641&hl=bg&z=15&output=embed",
+  mapsLink: "https://maps.google.com/?cid=7115478582281268041",
   paymentNote: "Плащане в брой при вземане на платформата.",
   pickupHours: "08:00–18:00",
   pickupHoursNote:
