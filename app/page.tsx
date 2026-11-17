@@ -1,5 +1,6 @@
 import { FaqSection } from "@/components/home/FaqSection";
 import { Hero } from "@/components/home/Hero";
+import { IncludedSection } from "@/components/home/IncludedSection";
 import { PlatformCard } from "@/components/platform/PlatformCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -95,29 +96,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-silver bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
-          <SectionHeading
-            number="03"
-            title="Включено оборудване"
-            description="Стандартно с всяка платформа."
-          />
-          <ul className="mt-8 grid gap-px bg-silver sm:grid-cols-2">
-            {siteConfig.included.map((item) => (
-              <li
-                key={item}
-                className="flex items-center gap-3 bg-white px-5 py-4 text-sm"
-              >
-                <span className="h-2 w-2 shrink-0 bg-accent" aria-hidden />
-                {item}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 border border-accent bg-accent px-4 py-3 text-sm font-medium text-graphite">
-            {siteConfig.licenseNote}
-          </p>
-        </div>
-      </section>
+      <IncludedSection />
 
       <FaqSection />
 
