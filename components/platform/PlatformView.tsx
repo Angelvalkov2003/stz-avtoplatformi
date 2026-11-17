@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { BookingModal } from "@/components/booking/BookingModal";
 import { Gallery } from "@/components/platform/Gallery";
 import { PriceTable } from "@/components/platform/PriceTable";
-import { Button } from "@/components/ui/Button";
 import {
   axleCount,
   dimensionsLabel,
@@ -63,51 +62,42 @@ export function PlatformView({ platform, images, busy }: Props) {
   return (
     <>
       <section className="border-b border-silver bg-graphite text-white">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-[1fr_auto] md:items-end md:px-6 md:py-10">
-          <div>
-            <p className="tabular text-xs text-silver">
-              {String(platform.sort_order).padStart(2, "0")} / платформа
+        <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
+          <p className="tabular text-xs text-silver">
+            {String(platform.sort_order).padStart(2, "0")} / платформа
+          </p>
+          <h1 className="mt-2 font-display text-3xl font-semibold md:text-4xl">
+            {platform.name}
+          </h1>
+          {platform.highlight ? (
+            <p className="mt-3 inline-block bg-accent px-2.5 py-1 text-xs font-medium text-graphite">
+              {platform.highlight}
             </p>
-            <h1 className="mt-2 font-display text-3xl font-semibold md:text-4xl">
-              {platform.name}
-            </h1>
-            {platform.highlight ? (
-              <p className="mt-3 inline-block bg-accent px-2.5 py-1 text-xs font-medium text-graphite">
-                {platform.highlight}
-              </p>
-            ) : null}
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-silver">
-              {platform.description}
-            </p>
-            <p className="mt-4 max-w-xl border border-accent/40 bg-accent px-3 py-2 text-sm font-medium text-graphite">
-              {licenseNote}
-            </p>
-            <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              <div>
-                <dt className="text-xs text-silver">Размери</dt>
-                <dd className="tabular font-medium">
-                  {dimensionsLabel(platform)}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-silver">Товароносимост</dt>
-                <dd className="tabular font-medium">{platform.capacity_kg} кг</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-silver">Цена от</dt>
-                <dd className="tabular font-medium">
-                  {from != null ? `${formatEur(from)} / ден` : "—"}
-                </dd>
-              </div>
-            </dl>
-          </div>
-          <Button
-            type="button"
-            onClick={openBooking}
-            className="min-w-[10rem] justify-center self-end"
-          >
-            Резервирай
-          </Button>
+          ) : null}
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-silver">
+            {platform.description}
+          </p>
+          <p className="mt-4 max-w-xl border border-accent/40 bg-accent px-3 py-2 text-sm font-medium text-graphite">
+            {licenseNote}
+          </p>
+          <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <div>
+              <dt className="text-xs text-silver">Размери</dt>
+              <dd className="tabular font-medium">
+                {dimensionsLabel(platform)}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs text-silver">Товароносимост</dt>
+              <dd className="tabular font-medium">{platform.capacity_kg} кг</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-silver">Цена от</dt>
+              <dd className="tabular font-medium">
+                {from != null ? `${formatEur(from)} / ден` : "—"}
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
 

@@ -70,7 +70,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-white text-graphite antialiased">
         <Header />
-        <main className="flex-1 pb-24 md:pb-0">{children}</main>
+        <main className="flex-1 pb-24">{children}</main>
         <Footer />
         <MobileBookingBar />
       </body>
