@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section className="relative isolate min-h-[78vh] overflow-hidden bg-graphite text-white">
       <Image
-        src="/images/platforms/platform-1/01.webp"
+        src="/images/platforms/platform-1/hero.jpg"
         alt="Автомобилна платформа на СТЗ"
         fill
         priority

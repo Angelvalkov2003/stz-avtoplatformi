@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatEur } from "@/lib/pricing";
-import { platformImages } from "@/lib/platforms-client";
+import { platformHeroImage } from "@/lib/platforms-client";
 import type { PlatformWithPrices } from "@/lib/types";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function PlatformCard({ platform, index }: Props) {
-  const img = platformImages(platform.slug, 1)[0];
+  const img = platformHeroImage(platform.slug);
   const from = platform.prices.find((p) => p.days === 1)?.total_eur;
 
   return (
