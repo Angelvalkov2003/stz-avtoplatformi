@@ -50,8 +50,8 @@ export default async function HomePage() {
                 publishable) и рестартирайте dev сървъра.
               </p>
             ) : (
-              platforms.map((p, i) => (
-                <PlatformCard key={p.id} platform={p} index={i} />
+              platforms.map((p) => (
+                <PlatformCard key={p.id} platform={p} />
               ))
             )}
           </div>

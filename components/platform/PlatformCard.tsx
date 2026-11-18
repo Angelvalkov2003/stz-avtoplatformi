@@ -6,10 +6,9 @@ import type { PlatformWithPrices } from "@/lib/types";
 
 type Props = {
   platform: PlatformWithPrices;
-  index: number;
 };
 
-export function PlatformCard({ platform, index }: Props) {
+export function PlatformCard({ platform }: Props) {
   const img = platformHeroImage(platform.slug);
   const from = platform.prices.find((p) => p.days === 1)?.total_eur;
 
@@ -26,9 +25,6 @@ export function PlatformCard({ platform, index }: Props) {
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           sizes="(max-width:768px) 100vw, 40vw"
         />
-        <span className="absolute left-3 top-3 tabular bg-graphite px-2 py-1 text-xs text-white">
-          {String(index + 1).padStart(2, "0")}
-        </span>
       </Link>
       <div className="flex flex-col justify-between gap-4 border-t border-silver p-5 md:border-l md:border-t-0 md:p-6">
         <div>
