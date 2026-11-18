@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Onest, Unbounded } from "next/font/google";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { CookieBanner } from "@/components/cookies/CookieBanner";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileBookingBar } from "@/components/layout/MobileBookingBar";
+import { CONSENT_DEFAULT_SCRIPT } from "@/lib/cookie-consent";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
+
+const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
 const unbounded = Unbounded({
   variable: "--font-unbounded",
@@ -68,11 +73,20 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${unbounded.variable} ${onest.variable} ${jetbrains.variable} h-full`}
     >
+      <head>
+        {gaId ? (
+          <script
+            dangerouslySetInnerHTML={{ __html: CONSENT_DEFAULT_SCRIPT }}
+          />
+        ) : null}
+      </head>
       <body className="flex min-h-full flex-col bg-white text-graphite antialiased">
+        <GoogleAnalytics />
         <Header />
         <main className="flex-1 pb-24">{children}</main>
         <Footer />
         <MobileBookingBar />
+        <CookieBanner />
       </body>
     </html>
   );

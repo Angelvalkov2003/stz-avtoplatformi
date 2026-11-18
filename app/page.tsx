@@ -38,7 +38,6 @@ export default async function HomePage() {
       <section id="platformi" className="border-b border-silver bg-white">
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
           <SectionHeading
-            number="01"
             title="Платформите"
             description="Сравнение по размери, товароносимост и начална дневна цена."
           />
@@ -62,7 +61,6 @@ export default async function HomePage() {
       <section id="kak-raboti" className="border-b border-silver bg-warm">
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
           <SectionHeading
-            number="02"
             title="Как работи"
             description="Кратък процес — без онлайн плащане."
           />
@@ -102,7 +100,7 @@ export default async function HomePage() {
 
       <section id="kontakti" className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
-          <SectionHeading number="05" title="Контакти" />
+          <SectionHeading title="Контакти" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <div className="border border-silver p-6">
               <dl className="space-y-4 text-sm">

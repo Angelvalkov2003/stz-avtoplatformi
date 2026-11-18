@@ -6,7 +6,6 @@ export function FaqSection() {
     <section id="vaprosi" className="border-b border-silver bg-warm">
       <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
         <SectionHeading
-          number="04"
           title="Често задавани въпроси"
           description="FAQ — кратки отговори преди да резервирате."
         />

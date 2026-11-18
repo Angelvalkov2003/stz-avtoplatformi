@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieSettingsLink } from "@/components/cookies/CookieSettingsLink";
 import { siteConfig } from "@/lib/site-config";
 
 export function Footer() {
@@ -38,6 +39,7 @@ export function Footer() {
           <Link href="/usloviya" className="block hover:text-accent">
             Общи условия
           </Link>
+          <CookieSettingsLink />
           <p className="mt-4 text-xs text-steel">
             {siteConfig.paymentNote}
           </p>

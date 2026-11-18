@@ -6,8 +6,7 @@ export function IncludedSection() {
       <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="tabular text-sm text-silver">03</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+            <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
               Включено оборудване
             </h2>
             <p className="mt-4 max-w-md text-base leading-relaxed text-silver">
