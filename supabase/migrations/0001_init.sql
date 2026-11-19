@@ -79,6 +79,11 @@ ALTER TABLE platforms ENABLE ROW LEVEL SECURITY;
 ALTER TABLE platform_prices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 
+-- Права за PostgREST / service_role (RLS остава без публични policies)
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON TABLE platforms, platform_prices, bookings TO service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
+
 -- Seed platforms
 INSERT INTO platforms (
   id, slug, name, short_name, length_m, width_m, capacity_kg,
