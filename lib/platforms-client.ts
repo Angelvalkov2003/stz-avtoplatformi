@@ -18,7 +18,8 @@ const GALLERY_FILES: Record<string, string[]> = {
     "04.webp",
     "05.webp",
     "06.webp",
-    "07.webp",
+    "07.jpg",
+    "08.jpg",
   ],
   "platform-2": [
     "01.jpg",
