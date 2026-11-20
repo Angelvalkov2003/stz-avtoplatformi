@@ -32,7 +32,10 @@ export function PriceTable({ prices }: Props) {
                   {row.days}
                 </td>
                 <td className="tabular border-t border-silver px-4 py-2.5 font-medium">
-                  {formatEur(row.total_eur)}
+                  {formatEur(row.total_eur)}{" "}
+                  <span className="font-normal text-steel">
+                    ({Math.round(row.total_eur / row.days)}&nbsp;€/ден)
+                  </span>
                 </td>
               </tr>
             ))}
