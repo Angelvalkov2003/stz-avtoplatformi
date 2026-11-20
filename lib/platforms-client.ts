@@ -9,35 +9,48 @@ export function platformHeroImage(slug: string): string {
   return `/images/platforms/${platformImageDir(slug)}/hero.jpg`;
 }
 
-function galleryCount(dir: string): number {
-  if (dir === "platform-2") return 6;
-  if (dir === "platform-3") return 6;
-  return 7;
-}
+/** Gallery files per platform folder (without hero). */
+const GALLERY_FILES: Record<string, string[]> = {
+  "platform-1": [
+    "01.webp",
+    "02.webp",
+    "03.webp",
+    "04.webp",
+    "05.webp",
+    "06.webp",
+    "07.webp",
+  ],
+  "platform-2": [
+    "01.jpg",
+    "02.jpg",
+    "03.jpg",
+    "04.jpg",
+    "05.jpg",
+    "06.jpg",
+  ],
+  "platform-3": [
+    "01.webp",
+    "02.webp",
+    "03.webp",
+    "04.webp",
+    "05.webp",
+    "06.jpg",
+  ],
+};
 
-function galleryExt(dir: string): string {
-  return dir === "platform-2" ? "jpg" : "webp";
+function galleryPaths(dir: string): string[] {
+  return (GALLERY_FILES[dir] ?? []).map(
+    (file) => `/images/platforms/${dir}/${file}`,
+  );
 }
 
 export function platformImages(slug: string, count: number): string[] {
   const dir = platformImageDir(slug);
-  const max = galleryCount(dir);
-  const ext = galleryExt(dir);
-  const n = Math.min(count, max);
-  const gallery = Array.from({ length: n }, (_, i) => {
-    const num = String(i + 1).padStart(2, "0");
-    return `/images/platforms/${dir}/${num}.${ext}`;
-  });
-  return [platformHeroImage(slug), ...gallery].slice(0, count + 1);
+  const gallery = galleryPaths(dir).slice(0, count);
+  return [platformHeroImage(slug), ...gallery];
 }
 
 export function allPlatformImages(slug: string): string[] {
   const dir = platformImageDir(slug);
-  const max = galleryCount(dir);
-  const ext = galleryExt(dir);
-  const gallery = Array.from({ length: max }, (_, i) => {
-    const num = String(i + 1).padStart(2, "0");
-    return `/images/platforms/${dir}/${num}.${ext}`;
-  });
-  return [platformHeroImage(slug), ...gallery];
+  return [platformHeroImage(slug), ...galleryPaths(dir)];
 }
