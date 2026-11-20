@@ -12,7 +12,7 @@ import {
   sharedEquipment,
   socketLabel,
 } from "@/lib/platform-specs";
-import { formatEur } from "@/lib/pricing";
+import { formatEur, fromDailyPrice } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site-config";
 import type { PlatformWithPrices } from "@/lib/types";
 
@@ -27,7 +27,7 @@ type Props = {
 export function PlatformView({ platform, images, busy }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const from = platform.prices.find((x) => x.days === 1)?.total_eur;
+  const from = fromDailyPrice(platform.prices);
 
   const openBooking = useCallback(() => setOpen(true), []);
   const closeBooking = useCallback(() => setOpen(false), []);

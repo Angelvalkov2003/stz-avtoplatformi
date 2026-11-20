@@ -6,6 +6,7 @@ import {
   allPlatformImages,
   getPlatformBySlug,
 } from "@/lib/platforms";
+import { fromDailyPrice } from "@/lib/pricing";
 import { siteConfig } from "@/lib/site-config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -42,7 +43,7 @@ export default async function PlatformPage({ params }: Props) {
 
   const images = allPlatformImages(platform.slug);
   const busy = await getBusyRanges(platform.id).catch(() => []);
-  const from = platform.prices.find((x) => x.days === 1)?.total_eur;
+  const from = fromDailyPrice(platform.prices);
 
   const jsonLd = {
     "@context": "https://schema.org",

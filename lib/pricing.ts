@@ -60,3 +60,17 @@ export function estimatePrice(
 export function formatEur(amount: number): string {
   return `${amount}\u00A0€`;
 }
+
+/** Най-ниска дневна ставка от ценоразписа (обикновено месечният пакет). */
+export function fromDailyPrice(
+  prices: Pick<PlatformPrice, "days" | "total_eur">[],
+): number | null {
+  if (prices.length === 0) return null;
+  let best: number | null = null;
+  for (const row of prices) {
+    if (row.days < 1) continue;
+    const daily = Math.round(row.total_eur / row.days);
+    if (best == null || daily < best) best = daily;
+  }
+  return best;
+}
