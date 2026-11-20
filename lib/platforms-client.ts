@@ -9,9 +9,15 @@ export function platformHeroImage(slug: string): string {
   return `/images/platforms/${platformImageDir(slug)}/hero.jpg`;
 }
 
+function galleryCount(dir: string): number {
+  if (dir === "platform-2") return 0; // 4.5 м — само hero с бял фон
+  if (dir === "platform-3") return 6;
+  return 7;
+}
+
 export function platformImages(slug: string, count: number): string[] {
   const dir = platformImageDir(slug);
-  const max = dir === "platform-3" ? 6 : 7;
+  const max = galleryCount(dir);
   const n = Math.min(count, max);
   const gallery = Array.from({ length: n }, (_, i) => {
     const num = String(i + 1).padStart(2, "0");
@@ -22,7 +28,7 @@ export function platformImages(slug: string, count: number): string[] {
 
 export function allPlatformImages(slug: string): string[] {
   const dir = platformImageDir(slug);
-  const max = dir === "platform-3" ? 6 : 7;
+  const max = galleryCount(dir);
   const gallery = Array.from({ length: max }, (_, i) => {
     const num = String(i + 1).padStart(2, "0");
     return `/images/platforms/${dir}/${num}.webp`;
