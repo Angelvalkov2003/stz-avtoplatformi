@@ -67,26 +67,32 @@ export default async function HomePage() {
           <ol className="mt-10 grid gap-0 border border-silver bg-white md:grid-cols-3">
             {[
               {
+                n: "I",
                 t: "Избираш дати",
-                d: "Гледаш календара на платформата и пращаш заявка за свободния период.",
+                d: "Избираш от календара на платформата желания период и пращаш заявка.",
               },
               {
+                n: "II",
                 t: "Потвърждаваме по телефона",
                 d: "Обаждаме се, уточняваме товара и запазваме периода.",
               },
               {
-                t: "Плащаш в брой при вземане",
-                d: siteConfig.paymentNote,
+                n: "III",
+                t: "Очакваме те",
+                d: "Очакваме те в уговорения ден и час да закачиш платформата.",
               },
-            ].map((s, i) => (
+            ].map((s) => (
               <li
-                key={s.t}
-                className="border-silver p-6 md:border-r md:last:border-r-0 border-b md:border-b-0"
+                key={s.n}
+                className="group relative border-silver p-6 md:border-r md:last:border-r-0 border-b md:border-b-0 md:p-8"
               >
-                <p className="tabular text-sm text-steel">
-                  {String(i + 1).padStart(2, "0")}
+                <div className="absolute left-0 top-0 h-1 w-10 bg-accent opacity-80 transition group-hover:w-16" />
+                <p className="font-display text-3xl font-semibold leading-none tracking-tight text-accent md:text-4xl">
+                  {s.n}
                 </p>
-                <h3 className="mt-3 font-display text-lg font-semibold">{s.t}</h3>
+                <h3 className="mt-5 font-display text-lg font-semibold text-graphite">
+                  {s.t}
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-steel">{s.d}</p>
               </li>
             ))}
@@ -135,11 +141,8 @@ export default async function HomePage() {
                   <dt className="text-steel">Viber</dt>
                   <dd className="mt-1">
                     <a href={siteConfig.viber} className="hover:underline">
-                      Съобщение в Viber
+                      Пишете ни във Viber
                     </a>
-                    <span className="mt-1 block text-xs text-steel">
-                      Само Viber на този номер — без WhatsApp.
-                    </span>
                   </dd>
                 </div>
                 <div>

@@ -5,8 +5,22 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/site-config";
 
-const HEADLINE = "Автомобилни платформи под наем";
+const HEADLINE_BASE = "Автомобилни платформи под наем";
+const HEADLINE_ACCENT = " в Стара Загора";
+const HEADLINE = `${HEADLINE_BASE}${HEADLINE_ACCENT}`;
 const TAGLINE = "Бърза резервация онлайн или по телефона";
+
+function renderTypedHeadline(typed: string) {
+  if (typed.length <= HEADLINE_BASE.length) {
+    return <span>{typed || "\u00A0"}</span>;
+  }
+  return (
+    <>
+      <span>{HEADLINE_BASE}</span>
+      <span className="text-accent">{typed.slice(HEADLINE_BASE.length)}</span>
+    </>
+  );
+}
 
 type Phase = "typing" | "brand" | "tagline" | "cta" | "done";
 
@@ -93,7 +107,7 @@ export function Hero() {
         <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold uppercase leading-[1.05] md:text-6xl">
           <span className="sr-only">{HEADLINE}</span>
           <span aria-hidden className="block min-h-[1.15em]">
-            <span>{typed || "\u00A0"}</span>
+            {renderTypedHeadline(typed)}
             <span
               className={`hero-caret ml-0.5 inline-block translate-y-[-0.05em] align-baseline ${
                 showCaret ? "opacity-100" : "opacity-0"

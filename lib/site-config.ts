@@ -7,7 +7,7 @@ export const siteConfig = {
   phoneHref: "tel:+359877751188",
   email: "stzavtoplatformi@gmail.com",
   address: "STZ Автомобилни Платформи под Наем, Стара Загора",
-  workingHours: "Всеки ден — постоянно",
+  workingHours: "Всеки ден",
   viber: "viber://chat?number=%2B359877751188",
   facebookUrl: "https://www.facebook.com/share/1KJYJAAseD/?mibextid=wwXIfr",
   mapsEmbedUrl:
